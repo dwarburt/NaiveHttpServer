@@ -24,13 +24,13 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HttpServer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="HttpRequest.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HttpResponse.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HttpServer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

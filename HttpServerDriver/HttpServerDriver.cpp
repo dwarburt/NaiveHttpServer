@@ -1,6 +1,6 @@
 
 #include "stdafx.h"
-#include "HttpServer.h"
+#include "HttpServer.hpp"
 #include <boost/asio.hpp>
 
 HttpResponse handle(HttpRequest req)

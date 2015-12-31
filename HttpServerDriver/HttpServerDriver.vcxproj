@@ -149,7 +149,7 @@
   <ItemGroup>
     <ClInclude Include="HttpRequest.hpp" />
     <ClInclude Include="HttpResponse.hpp" />
-    <ClInclude Include="HttpServer.h" />
+    <ClInclude Include="HttpServer.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
