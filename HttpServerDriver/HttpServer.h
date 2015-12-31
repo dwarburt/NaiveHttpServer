@@ -1,5 +1,7 @@
 #pragma once
 #include <boost/asio.hpp>
+#include "HttpRequest.hpp"
+#include "HttpResponse.hpp"
 
 class HttpServer
 {
@@ -7,7 +9,9 @@ public:
     HttpServer();
     ~HttpServer();
 
-    void start();
+    typedef std::function<HttpResponse(HttpRequest)> RequestHandler;
+
+    void start(RequestHandler handler);
     static std::map<uint8_t, std::string> http_codes;
 
 private:
@@ -20,6 +24,9 @@ private:
     boost::asio::io_service m_io;
     boost::asio::ip::tcp::acceptor m_acceptor;
     boost::asio::ip::tcp::socket m_socket;
+    RequestHandler m_handler;
 
 };
+
+
 

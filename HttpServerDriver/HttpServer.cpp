@@ -36,8 +36,9 @@ HttpServer::~HttpServer()
 {
 }
 
-void HttpServer::start()
+void HttpServer::start(RequestHandler handler)
 {
+    m_handler = handler;
     m_io.run();
 }
 
