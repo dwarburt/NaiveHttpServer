@@ -1,8 +1,13 @@
 #pragma once
-class HttpRequest
+namespace Naive
+{
+namespace Http
+{
+class Request
 {
 public:
-    HttpRequest();
-    ~HttpRequest();
+    Request();
+    ~Request();
 };
-
+} //namespace Http
+} //namespace Naive

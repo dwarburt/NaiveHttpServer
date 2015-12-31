@@ -1,12 +1,19 @@
 #include "stdafx.h"
 #include "HttpResponse.hpp"
 
+namespace Naive
+{
+namespace Http
+{
 
-HttpResponse::HttpResponse()
+Response::Response()
 {
 }
 
 
-HttpResponse::~HttpResponse()
+Response::~Response()
 {
 }
+
+} //namespace Http
+} //namespace Naive

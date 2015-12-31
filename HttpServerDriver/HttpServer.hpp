@@ -3,13 +3,18 @@
 #include "HttpRequest.hpp"
 #include "HttpResponse.hpp"
 
-class HttpServer
+namespace Naive
+{
+namespace Http
+{
+
+class Server
 {
 public:
-    HttpServer();
-    ~HttpServer();
+    Server();
+    ~Server();
 
-    typedef std::function<HttpResponse(HttpRequest)> RequestHandler;
+    typedef std::function<Response(Request)> RequestHandler;
 
     void start(RequestHandler handler);
     static std::map<uint8_t, std::string> http_codes;
@@ -27,6 +32,7 @@ private:
     RequestHandler m_handler;
 
 };
-
+} // namespace Http
+} // namespace Server
 
 

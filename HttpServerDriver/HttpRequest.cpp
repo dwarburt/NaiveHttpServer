@@ -1,12 +1,18 @@
 #include "stdafx.h"
 #include "HttpRequest.hpp"
 
+namespace Naive
+{
+namespace Http
+{
 
-HttpRequest::HttpRequest()
+Request::Request()
 {
 }
 
 
-HttpRequest::~HttpRequest()
+Request::~Request()
 {
 }
+} //namespace Http
+} //namespace Naive

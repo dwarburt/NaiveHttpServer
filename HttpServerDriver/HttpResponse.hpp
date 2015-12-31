@@ -1,8 +1,13 @@
 #pragma once
-class HttpResponse
+namespace Naive
+{
+namespace Http
+{
+class Response
 {
 public:
-    HttpResponse();
-    ~HttpResponse();
+    Response();
+    ~Response();
 };
-
+} //namespace Http
+} //namespace Server

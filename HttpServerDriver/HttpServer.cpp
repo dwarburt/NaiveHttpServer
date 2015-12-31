@@ -1,11 +1,16 @@
 #include "stdafx.h"
-#include "HttpServer.h"
+#include "HttpServer.hpp"
 #include <iostream>
 
 using namespace boost::asio;
 using namespace boost::asio::ip;
 
-std::map<uint8_t, std::string> HttpServer::http_codes {
+namespace Naive
+{
+namespace Http
+{
+
+std::map<uint8_t, std::string> Server::http_codes {
     {200, "OK"},
     {301, "Moved Permanently"},
     {400, "Bad Request"},
@@ -15,7 +20,7 @@ std::map<uint8_t, std::string> HttpServer::http_codes {
     {500, "Internal Server Error"}
 };
 
-HttpServer::HttpServer() :
+Server::Server() :
     m_io(),
     m_acceptor(m_io),
     m_socket(m_io)
@@ -32,36 +37,36 @@ HttpServer::HttpServer() :
 }
 
 
-HttpServer::~HttpServer()
+Server::~Server()
 {
 }
 
-void HttpServer::start(RequestHandler handler)
+void Server::start(RequestHandler handler)
 {
     m_handler = handler;
     m_io.run();
 }
 
-void HttpServer::wait_for_connection()
+void Server::wait_for_connection()
 {
     debug("Waiting for connection");
     m_acceptor.async_accept(m_socket, [this](boost::system::error_code error_code)
-      {
-          if (!m_acceptor.is_open())
-          {
-              return;
-          }
+        {
+            if (!m_acceptor.is_open())
+            {
+                return;
+            }
 
-          if (!error_code)
-          {
-              debug("Handling the connection");
-              handle_connection();
-          }
+            if (!error_code)
+            {
+                debug("Handling the connection");
+                handle_connection();
+            }
 
-          wait_for_connection();
+            wait_for_connection();
     });
 }
-void HttpServer::handle_connection()
+void Server::handle_connection()
 {
     std::vector<uint8_t> buffer;
     m_socket.async_read_some(boost::asio::buffer(buffer), 
@@ -77,7 +82,7 @@ void HttpServer::handle_connection()
         }
     });
 }
-void HttpServer::respond(uint8_t code, std::string response)
+void Server::respond(uint8_t code, std::string response)
 {
     std::string status = "HTTP/1.1 200 OK\r\n";
     std::string type = "Content-Type: text/plain\r\n";
@@ -104,11 +109,13 @@ void HttpServer::respond(uint8_t code, std::string response)
         delete data_buffer;
     });
 }
-void HttpServer::close_connection()
+void Server::close_connection()
 {
     m_socket.close();
 }
-void HttpServer::debug(std::string msg)
+void Server::debug(std::string msg)
 {
     std::cout << msg << std::endl;
 }
+} //namespace Http
+} //namespace Naive

@@ -3,13 +3,15 @@
 #include "HttpServer.hpp"
 #include <boost/asio.hpp>
 
-HttpResponse handle(HttpRequest req)
+using namespace Naive::Http;
+
+Response handle(Request req)
 {
-    return HttpResponse();
+    return Response();
 }
 int main(int argc, char **argv)
 {
-    HttpServer my_server;
+    Server my_server;
     my_server.start(handle);
     return 0;
 }
