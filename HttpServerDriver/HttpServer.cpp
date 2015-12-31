@@ -4,6 +4,8 @@
 
 using namespace boost::asio;
 using namespace boost::asio::ip;
+using namespace boost::system;
+using namespace std::placeholders;
 
 namespace Naive
 {
@@ -36,39 +38,39 @@ namespace Naive
         void Server::wait_for_connection()
         {
             debug("Waiting for connection");
-            m_acceptor.async_accept(m_socket, [this](boost::system::error_code error_code)
-                {
-                    if (!m_acceptor.is_open())
-                    {
-                        return;
-                    }
-
-                    if (!error_code)
-                    {
-                        debug("Handling the connection");
-                        handle_connection();
-                    }
-
-                    wait_for_connection();
-            });
+            m_acceptor.async_accept(m_socket, std::bind(&Server::handle_connection, this, _1));
         }
-        void Server::handle_connection()
+        void Server::handle_connection(error_code error_code)
         {
-            std::vector<uint8_t> buffer;
-            m_socket.async_read_some(boost::asio::buffer(buffer), 
-                [this](boost::system::error_code ec, std::size_t bytes_transferred)
+            if (!m_acceptor.is_open())
             {
-                if (!ec)
-                {
-                    Request req;
-                    Response resp = m_handler(req);
-                    respond(resp.getCode(), resp.getText());
-                }
-                else if (ec != boost::asio::error::operation_aborted)
-                {
-                    close_connection();
-                }
-            });
+                return;
+            }
+
+            if (!error_code)
+            {
+                debug("Handling the connection");
+                std::vector<uint8_t> buffer;
+                m_socket.async_read_some(boost::asio::buffer(buffer), std::bind(&Server::got_data, this, buffer, _1, _2));
+            }
+            else
+            {
+                debug("on handle connection, got error code: " + error_code.message());
+            }
+            wait_for_connection();
+        }
+        void Server::got_data(std::vector<uint8_t> data, error_code ec, std::size_t bytes)
+        {
+            if (!ec)
+            {
+                Request req;
+                Response resp = m_handler(req);
+                respond(resp.getCode(), resp.getText());
+            }
+            else if (ec != error::operation_aborted)
+            {
+                close_connection();
+            }
         }
         void Server::respond(uint8_t code, std::string response)
         {
@@ -79,18 +81,18 @@ namespace Naive
             std::string reply = status + type + len + sep + response;
             std::string *data_buffer = new std::string(reply);
 
-            boost::asio::async_write(m_socket, boost::asio::buffer(*data_buffer),
-                [this, data_buffer](boost::system::error_code ec, std::size_t)
+            async_write(m_socket, boost::asio::buffer(*data_buffer),
+                [this, data_buffer](error_code ec, std::size_t)
             {
                 if (!ec)
                 {
                     // Initiate graceful connection closure.
-                    boost::system::error_code ignored_ec;
-                    m_socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both,
+                    error_code ignored_ec;
+                    m_socket.shutdown(tcp::socket::shutdown_both,
                         ignored_ec);
                 }
 
-                if (ec != boost::asio::error::operation_aborted)
+                if (ec != error::operation_aborted)
                 {
                     close_connection();
                 }
