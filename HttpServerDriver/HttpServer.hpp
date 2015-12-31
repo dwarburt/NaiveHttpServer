@@ -5,34 +5,33 @@
 
 namespace Naive
 {
-namespace Http
-{
+    namespace Http
+    {
 
-class Server
-{
-public:
-    Server();
-    ~Server();
+        class Server
+        {
+        public:
+            Server();
+            ~Server();
 
-    typedef std::function<Response(Request)> RequestHandler;
+            typedef std::function<Response(Request)> RequestHandler;
 
-    void start(RequestHandler handler);
-    static std::map<uint8_t, std::string> http_codes;
+            void start(RequestHandler handler);
 
-private:
-    void wait_for_connection();
-    void handle_connection();
-    void respond(uint8_t code, std::string response);
-    void close_connection();
-    void debug(std::string msg);
+        private:
+            void wait_for_connection();
+            void handle_connection();
+            void respond(uint8_t code, std::string response);
+            void close_connection();
+            void debug(std::string msg);
 
-    boost::asio::io_service m_io;
-    boost::asio::ip::tcp::acceptor m_acceptor;
-    boost::asio::ip::tcp::socket m_socket;
-    RequestHandler m_handler;
+            boost::asio::io_service m_io;
+            boost::asio::ip::tcp::acceptor m_acceptor;
+            boost::asio::ip::tcp::socket m_socket;
+            RequestHandler m_handler;
 
-};
-} // namespace Http
+        };
+    } // namespace Http
 } // namespace Server
 
 

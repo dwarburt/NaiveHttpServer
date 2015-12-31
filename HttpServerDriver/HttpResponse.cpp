@@ -3,17 +3,28 @@
 
 namespace Naive
 {
-namespace Http
-{
-
-Response::Response()
-{
-}
+    namespace Http
+    {
 
 
-Response::~Response()
-{
-}
+        std::map<uint8_t, std::string> Server::http_codes{
+            { 200, "OK" },
+            { 301, "Moved Permanently" },
+            { 400, "Bad Request" },
+            { 401, "Not Authorized" },
+            { 403, "Forbidden" },
+            { 404, "Not Found" },
+            { 500, "Internal Server Error" }
+        };
 
-} //namespace Http
+        Response::Response()
+        {
+        }
+
+
+        Response::~Response()
+        {
+        }
+
+    } //namespace Http
 } //namespace Naive

@@ -3,16 +3,16 @@
 
 namespace Naive
 {
-namespace Http
-{
+    namespace Http
+    {
 
-Request::Request()
-{
-}
+        Request::Request()
+        {
+        }
 
 
-Request::~Request()
-{
-}
-} //namespace Http
+        Request::~Request()
+        {
+        }
+    } //namespace Http
 } //namespace Naive
