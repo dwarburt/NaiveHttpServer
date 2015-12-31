@@ -7,7 +7,7 @@ using namespace Naive::Http;
 
 Response handle(Request req)
 {
-    return Response();
+    return Response("Well OK then.");
 }
 int main(int argc, char **argv)
 {

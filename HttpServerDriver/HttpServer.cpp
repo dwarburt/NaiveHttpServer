@@ -60,7 +60,9 @@ namespace Naive
             {
                 if (!ec)
                 {
-                    respond(200, "Hello world");
+                    Request req;
+                    Response resp = m_handler(req);
+                    respond(resp.getCode(), resp.getText());
                 }
                 else if (ec != boost::asio::error::operation_aborted)
                 {
@@ -97,6 +99,7 @@ namespace Naive
         }
         void Server::close_connection()
         {
+            debug("Closing the connection");
             m_socket.close();
         }
         void Server::debug(std::string msg)
