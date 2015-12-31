@@ -2,6 +2,7 @@
 #include <boost/asio.hpp>
 #include "HttpRequest.hpp"
 #include "HttpResponse.hpp"
+#include "HttpSocket.hpp"
 
 namespace Naive
 {
@@ -14,7 +15,7 @@ namespace Naive
             Server();
             ~Server();
 
-            typedef std::function<Response(Request)> RequestHandler;
+            
 
             void start(RequestHandler handler);
 
