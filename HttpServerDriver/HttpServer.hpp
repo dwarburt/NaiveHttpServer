@@ -1,4 +1,5 @@
 #pragma once
+#include <set>
 #include <boost/asio.hpp>
 #include "HttpRequest.hpp"
 #include "HttpResponse.hpp"
@@ -15,22 +16,19 @@ namespace Naive
             Server();
             ~Server();
 
-            
-
             void start(RequestHandler handler);
 
         private:
             void wait_for_connection();
             void handle_connection(boost::system::error_code error_code);
-            void respond(uint8_t code, std::string response);
-            void close_connection();
+            void close_socket(SocketPtr);
             void debug(std::string msg);
-            void Server::got_data(std::vector<uint8_t> data, boost::system::error_code ec, std::size_t bytes);
 
             boost::asio::io_service m_io;
             boost::asio::ip::tcp::acceptor m_acceptor;
-            boost::asio::ip::tcp::socket m_socket;
+            std::shared_ptr<boost::asio::ip::tcp::socket> m_psocket;
             RequestHandler m_handler;
+            std::set<SocketPtr> m_socket_list;
 
         };
     } // namespace Http

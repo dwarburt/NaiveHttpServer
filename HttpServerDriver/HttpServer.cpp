@@ -14,8 +14,7 @@ namespace Naive
 
         Server::Server() :
             m_io(),
-            m_acceptor(m_io),
-            m_socket(m_io)
+            m_acceptor(m_io)
         {
             std::string address = "127.0.0.1";
             std::string port = "55055";
@@ -37,8 +36,9 @@ namespace Naive
         }
         void Server::wait_for_connection()
         {
+            m_psocket = std::shared_ptr<tcp::socket>(new tcp::socket(m_io));
             debug("Waiting for connection");
-            m_acceptor.async_accept(m_socket, std::bind(&Server::handle_connection, this, _1));
+            m_acceptor.async_accept(*m_psocket, std::bind(&Server::handle_connection, this, _1));
         }
         void Server::handle_connection(error_code error_code)
         {
@@ -50,8 +50,10 @@ namespace Naive
             if (!error_code)
             {
                 debug("Handling the connection");
-                std::vector<uint8_t> buffer;
-                m_socket.async_read_some(boost::asio::buffer(buffer), std::bind(&Server::got_data, this, buffer, _1, _2));
+                SocketPtr ns = std::make_shared<Socket>(std::move(*m_psocket), m_handler);
+                m_socket_list.insert(ns);
+                ns->handle();
+
             }
             else
             {
@@ -59,50 +61,13 @@ namespace Naive
             }
             wait_for_connection();
         }
-        void Server::got_data(std::vector<uint8_t> data, error_code ec, std::size_t bytes)
-        {
-            if (!ec)
-            {
-                Request req;
-                Response resp = m_handler(req);
-                respond(resp.getCode(), resp.getText());
-            }
-            else if (ec != error::operation_aborted)
-            {
-                close_connection();
-            }
-        }
-        void Server::respond(uint8_t code, std::string response)
-        {
-            std::string status = "HTTP/1.1 200 OK\r\n";
-            std::string type = "Content-Type: text/plain\r\n";
-            std::string len = "Content-Length: " + std::to_string(response.length()) + "\r\n";
-            std::string sep = "\r\n";
-            std::string reply = status + type + len + sep + response;
-            std::string *data_buffer = new std::string(reply);
 
-            async_write(m_socket, boost::asio::buffer(*data_buffer),
-                [this, data_buffer](error_code ec, std::size_t)
-            {
-                if (!ec)
-                {
-                    // Initiate graceful connection closure.
-                    error_code ignored_ec;
-                    m_socket.shutdown(tcp::socket::shutdown_both,
-                        ignored_ec);
-                }
 
-                if (ec != error::operation_aborted)
-                {
-                    close_connection();
-                }
-                delete data_buffer;
-            });
-        }
-        void Server::close_connection()
+        void Server::close_socket(SocketPtr sp)
         {
             debug("Closing the connection");
-            m_socket.close();
+            m_socket_list.erase(sp);
+            
         }
         void Server::debug(std::string msg)
         {
