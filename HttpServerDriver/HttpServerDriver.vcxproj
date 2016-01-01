@@ -71,7 +71,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>C:/Users/wdwarbur/Downloads/boost_1_59_0/boost_1_59_0/bin.v2/libs/system/build/msvc-14.0/debug/link-static/threading-multi;C:/Users/wdwarbur/Downloads/boost_1_59_0/boost_1_59_0/bin.v2/libs/date_time/build/msvc-14.0/debug/link-static/threading-multi;C:/Users/wdwarbur/Downloads/boost_1_59_0/boost_1_59_0/bin.v2/libs/regex/build/msvc-14.0/debug/link-static/threading-multi;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
