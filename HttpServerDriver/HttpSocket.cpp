@@ -1,6 +1,6 @@
 #include "stdafx.h"
+#include <iostream>
 #include "HttpSocket.hpp"
-
 using namespace boost::asio;
 using namespace boost::asio::ip;
 using namespace boost::system;
@@ -12,7 +12,7 @@ namespace Naive
     {
 
         Socket::Socket(boost::asio::ip::tcp::socket socket, RequestHandler h, std::function<void(SocketPtr)> on_close) 
-            : m_socket(std::move(socket)), m_handler(h), m_on_close(on_close)
+            : m_socket(std::move(socket)), m_handler(h), m_on_close(on_close), buffer(8096)
         {
         }
 
@@ -22,22 +22,25 @@ namespace Naive
 
         void Socket::handle()
         {
-            std::vector<uint8_t> buffer;
-            m_socket.async_read_some(boost::asio::buffer(buffer), std::bind(&Socket::got_data, this, buffer, _1, _2));
+            m_socket.async_read_some(boost::asio::buffer(buffer), std::bind(&Socket::got_data, this, _1, _2));
+            //    [this](error_code ec, std::size_t bytes) {
+            //        got_data(ec, bytes);
+            //});
+                
+                //std::bind(&Socket::got_data, this, buffer, _1, _2));
         }
 
-        //TODO: Implement
         void Socket::close()
         {
             SocketPtr p(shared_from_this());
             m_socket.close();
             m_on_close(p);
         }
-        void Socket::got_data(std::vector<uint8_t> data, error_code ec, std::size_t bytes)
+        void Socket::got_data(error_code ec, std::size_t bytes)
         {
             if (!ec)
             {
-                Request req;
+                Request req(buffer, bytes);
                 Response resp = m_handler(req);
                 respond(resp.getCode(), resp.getText());
             }

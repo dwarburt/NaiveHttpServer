@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 namespace Naive
 {
     namespace Http
@@ -6,7 +7,7 @@ namespace Naive
         class Request
         {
         public:
-            Request();
+            Request(std::vector<uint8_t>, size_t);
             ~Request();
         };
     } //namespace Http

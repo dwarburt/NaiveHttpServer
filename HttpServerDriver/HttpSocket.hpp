@@ -24,8 +24,9 @@ namespace Naive
             boost::asio::ip::tcp::socket m_socket;
             RequestHandler m_handler;
             std::function<void(SocketPtr)> m_on_close;
+            std::vector<uint8_t> buffer;
 
-            void got_data(std::vector<uint8_t> data, boost::system::error_code ec, std::size_t bytes);
+            void got_data(boost::system::error_code ec, std::size_t bytes);
             void respond(uint8_t code, std::string response_text);
         };
 
