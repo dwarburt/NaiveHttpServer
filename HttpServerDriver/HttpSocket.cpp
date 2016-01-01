@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include <iostream>
 #include "HttpSocket.hpp"
 using namespace boost::asio;
@@ -24,11 +23,6 @@ namespace Naive
         void Socket::handle()
         {
             m_socket.async_read_some(boost::asio::buffer(buffer), std::bind(&Socket::got_data, this, _1, _2));
-            //    [this](error_code ec, std::size_t bytes) {
-            //        got_data(ec, bytes);
-            //});
-                
-                //std::bind(&Socket::got_data, this, buffer, _1, _2));
         }
 
         void Socket::close()
@@ -39,12 +33,23 @@ namespace Naive
         }
         void Socket::got_data(error_code ec, std::size_t bytes)
         {
+            std::cout << "in the got_data" << std::endl;
             if (!ec)
             {
+                std::cout << "Got data on this socket " << std::to_string(m_socket.native_handle()) << std::endl;
                 Request req(buffer, bytes);
+                buffer.clear();
                 Response resp = m_handler(req);
                 respond(resp.getCode(), resp.getText());
-            }
+                if (req.keep_alive())
+                {
+                    handle();
+                }
+                else
+                {
+                    close();
+                }
+           }
             else if (ec != error::operation_aborted)
             {
                 close();
@@ -69,11 +74,6 @@ namespace Naive
                     error_code ignored_ec;
                     m_socket.shutdown(tcp::socket::shutdown_both,
                         ignored_ec);
-                }
-
-                if (ec != error::operation_aborted)
-                {
-                    close();
                 }
                 delete data_buffer;
             });

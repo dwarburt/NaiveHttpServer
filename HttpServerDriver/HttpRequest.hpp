@@ -9,6 +9,8 @@ namespace Naive
         public:
             Request(std::vector<uint8_t>, size_t);
             ~Request();
+
+            bool keep_alive();
         };
     } //namespace Http
 } //namespace Naive
