@@ -11,7 +11,8 @@ namespace Naive
     namespace Http
     {
 
-        Socket::Socket(boost::asio::ip::tcp::socket socket, RequestHandler h) : m_socket(std::move(socket)), m_handler(h)
+        Socket::Socket(boost::asio::ip::tcp::socket socket, RequestHandler h, std::function<void(SocketPtr)> on_close) 
+            : m_socket(std::move(socket)), m_handler(h), m_on_close(on_close)
         {
         }
 
@@ -28,6 +29,9 @@ namespace Naive
         //TODO: Implement
         void Socket::close()
         {
+            SocketPtr p(shared_from_this());
+            m_socket.close();
+            m_on_close(p);
         }
         void Socket::got_data(std::vector<uint8_t> data, error_code ec, std::size_t bytes)
         {

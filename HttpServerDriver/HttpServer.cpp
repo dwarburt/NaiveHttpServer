@@ -50,10 +50,9 @@ namespace Naive
             if (!error_code)
             {
                 debug("Handling the connection");
-                SocketPtr ns = std::make_shared<Socket>(std::move(*m_psocket), m_handler);
+                SocketPtr ns = std::make_shared<Socket>(std::move(*m_psocket), m_handler, std::bind(&Server::close_socket, this, _1));
                 m_socket_list.insert(ns);
                 ns->handle();
-
             }
             else
             {
