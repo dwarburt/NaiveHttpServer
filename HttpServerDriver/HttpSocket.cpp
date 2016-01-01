@@ -18,6 +18,7 @@ namespace Naive
 
         Socket::~Socket()
         {
+            m_socket.close();
         }
 
         void Socket::handle()
@@ -33,7 +34,7 @@ namespace Naive
         void Socket::close()
         {
             SocketPtr p(shared_from_this());
-            m_socket.close();
+
             m_on_close(p);
         }
         void Socket::got_data(error_code ec, std::size_t bytes)
