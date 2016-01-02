@@ -21,6 +21,7 @@ namespace Naive
             std::map<std::string, std::string> get_headers();
 
         protected:
+            virtual std::string first_line() = 0;
             std::map<std::string, std::string> m_headers;
             std::string m_method;  // one of GET, POST etc.
             std::string m_url;

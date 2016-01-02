@@ -16,6 +16,8 @@ namespace Naive
 
 
         private:
+        protected:
+            virtual std::string first_line();
 
         };
     } //namespace Http

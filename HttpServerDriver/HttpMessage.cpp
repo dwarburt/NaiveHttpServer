@@ -17,7 +17,7 @@ namespace Naive
         std::string Message::to_string()
         {
             std::ostringstream oss;
-            oss << m_method << " " << m_url << " " << m_http_version << "\r\n";
+            oss << first_line() << "\r\n";
             std::for_each(m_headers.begin(), m_headers.end(),
                 [&oss](std::pair<const std::string, std::string> &x) { oss << x.first << ": " << x.second << "\r\n"; });
             oss << "\r\n" << m_body;

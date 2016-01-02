@@ -46,7 +46,7 @@ namespace Naive
                 }
 
                 buffer.clear();
-                respond(resp.getCode(), resp.getText());
+                respond(resp.get_code(), resp.get_text());
 
                 if (req.keep_alive())
                 {

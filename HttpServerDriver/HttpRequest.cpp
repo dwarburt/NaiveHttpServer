@@ -52,6 +52,10 @@ namespace Naive
         Request::~Request()
         {
         }
+        std::string Request::first_line()
+        {
+            return m_method + " " + m_url + " " + m_http_version;
+        }
 
 
     } //namespace Http
