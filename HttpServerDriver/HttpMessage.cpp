@@ -44,7 +44,7 @@ namespace Naive
             return "";
 
         }
-        std::string Message::get_operation()
+        std::string Message::get_method()
         {
             return m_method;
         }

@@ -14,7 +14,7 @@ namespace Naive
             std::string to_string();
             bool keep_alive();
             std::string get_header(std::string);
-            std::string get_operation();
+            std::string get_method();
             std::string get_url();
             std::string get_http_version();
             std::string get_body();
