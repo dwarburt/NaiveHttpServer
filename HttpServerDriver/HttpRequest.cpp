@@ -26,6 +26,10 @@ namespace Naive
             std::string http_line = v.front();
             v.pop_front();
             split(hline, http_line, " ");
+            if (hline.size() < 3)
+            {
+                return false;
+            }
             m_method = hline[0];
             m_url = hline[1];
             m_http_version = hline[2];

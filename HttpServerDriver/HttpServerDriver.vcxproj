@@ -152,6 +152,7 @@
     <ClInclude Include="HttpResponse.hpp" />
     <ClInclude Include="HttpServer.hpp" />
     <ClInclude Include="HttpSocket.hpp" />
+    <ClInclude Include="HttpUrl.hpp" />
     <ClInclude Include="HttpUtil.hpp" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -162,6 +163,7 @@
     <ClCompile Include="HttpServer.cpp" />
     <ClCompile Include="HttpServerDriver.cpp" />
     <ClCompile Include="HttpSocket.cpp" />
+    <ClCompile Include="HttpUrl.cpp" />
     <ClCompile Include="HttpUtil.cpp" />
   </ItemGroup>
   <ItemGroup>

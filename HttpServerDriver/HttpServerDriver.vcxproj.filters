@@ -39,6 +39,9 @@
     <ClInclude Include="HttpMessage.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HttpUrl.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HttpServerDriver.cpp">
@@ -60,6 +63,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HttpMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HttpUrl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
