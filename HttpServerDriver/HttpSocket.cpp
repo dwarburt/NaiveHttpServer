@@ -36,11 +36,18 @@ namespace Naive
             std::cout << "in the got_data" << std::endl;
             if (!ec)
             {
+                Request req;
+                Response resp;
                 std::cout << "Got data on this socket " << std::to_string(m_socket.native_handle()) << std::endl;
-                Request req(buffer, bytes);
+
+                if (req.parse(buffer, bytes))
+                {
+                    resp = m_handler(req);
+                }
+
                 buffer.clear();
-                Response resp = m_handler(req);
                 respond(resp.getCode(), resp.getText());
+
                 if (req.keep_alive())
                 {
                     handle();

@@ -147,18 +147,22 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HttpMessage.hpp" />
     <ClInclude Include="HttpRequest.hpp" />
     <ClInclude Include="HttpResponse.hpp" />
     <ClInclude Include="HttpServer.hpp" />
     <ClInclude Include="HttpSocket.hpp" />
+    <ClInclude Include="HttpUtil.hpp" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="HttpMessage.cpp" />
     <ClCompile Include="HttpRequest.cpp" />
     <ClCompile Include="HttpResponse.cpp" />
     <ClCompile Include="HttpServer.cpp" />
     <ClCompile Include="HttpServerDriver.cpp" />
     <ClCompile Include="HttpSocket.cpp" />
+    <ClCompile Include="HttpUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,13 +1,15 @@
 #pragma once
 #include <map>
+#include "HttpMessage.hpp"
 
 namespace Naive
 {
     namespace Http
     {
-        class Response
+        class Response : public Message
         {
         public:
+            Response();
             Response(std::string response_text, uint8_t http_code = 200);
             ~Response();
 

@@ -33,6 +33,12 @@
     <ClInclude Include="HttpSocket.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HttpUtil.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HttpMessage.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HttpServerDriver.cpp">
@@ -48,6 +54,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HttpSocket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HttpUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HttpMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

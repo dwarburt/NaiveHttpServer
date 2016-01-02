@@ -13,7 +13,10 @@ namespace Naive
             { 404, "Not Found" },
             { 500, "Internal Server Error" }
         };
+        Response::Response() : m_text("invalid"), m_code(400)
+        {
 
+        }
         Response::Response(std::string response_text, uint8_t http_code) :
             m_text(response_text),
             m_code(http_code)
