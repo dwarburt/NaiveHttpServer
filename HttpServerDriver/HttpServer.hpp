@@ -4,6 +4,7 @@
 #include "HttpRequest.hpp"
 #include "HttpResponse.hpp"
 #include "HttpSocket.hpp"
+#include "HttpUtil.hpp"
 
 namespace Naive
 {
@@ -22,7 +23,6 @@ namespace Naive
             void wait_for_connection();
             void handle_connection(boost::system::error_code error_code);
             void close_socket(SocketPtr);
-            void debug(std::string msg);
 
             boost::asio::io_service m_io;
             boost::asio::ip::tcp::acceptor m_acceptor;

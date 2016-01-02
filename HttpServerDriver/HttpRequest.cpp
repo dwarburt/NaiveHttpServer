@@ -38,7 +38,7 @@ namespace Naive
                 {
                     break;
                 }
-                std::cout << "header: " << x << std::endl;
+                debug("header: " + x);
                 std::vector<std::string> header;
                 split(header, x, ": ");
                 m_headers[header[0]] = header[1];

@@ -67,9 +67,5 @@ namespace Naive
             m_socket_list.erase(sp);
             
         }
-        void Server::debug(std::string msg)
-        {
-            std::cout << msg << std::endl;
-        }
     } //namespace Http
 } //namespace Naive

@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <iostream>
 #include <boost/algorithm/string/iter_find.hpp>
 #include <boost/algorithm/string/finder.hpp>
 
@@ -24,6 +25,12 @@ namespace Naive
                oss << input[i];
            }
            return oss.str();
+       }
+       inline void debug(std::string msg)
+       {
+#if DEBUG
+           std::cout << msg << std::endl;
+#endif
        }
     }
 }
