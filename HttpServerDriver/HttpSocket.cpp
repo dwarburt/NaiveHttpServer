@@ -46,7 +46,7 @@ namespace Naive
                 }
 
                 buffer.clear();
-                respond(resp.get_code(), resp.get_text());
+                respond(resp.get_code(), resp.to_string());
 
                 if (req.keep_alive())
                 {
@@ -65,12 +65,13 @@ namespace Naive
 
         void Socket::respond(uint8_t code, std::string response_text)
         {
-            std::string status = "HTTP/1.1 200 OK\r\n";
+            /*std::string status = "HTTP/1.1 200 OK\r\n";
             std::string type = "Content-Type: text/plain\r\n";
             std::string len = "Content-Length: " + std::to_string(response_text.length()) + "\r\n";
             std::string sep = "\r\n";
             std::string reply = status + type + len + sep + response_text;
-            std::string *data_buffer = new std::string(reply);
+            */
+            std::string *data_buffer = new std::string(response_text);
 
             async_write(m_socket, boost::asio::buffer(*data_buffer),
                 [this, data_buffer](error_code ec, std::size_t)

@@ -16,7 +16,7 @@ namespace Naive
             std::string get_text();
             uint8_t get_code();
             void set_header(std::string, std::string);
-            void set_body(std::string);
+            void set_response_body(std::string);
 
         private:
             std::string m_body;

@@ -18,6 +18,7 @@ namespace Naive
             std::string get_url();
             std::string get_http_version();
             std::string get_body();
+            void set_body(std::string);
             std::map<std::string, std::string> get_headers();
 
         protected:

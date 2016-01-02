@@ -13,14 +13,15 @@ namespace Naive
             { 404, "Not Found" },
             { 500, "Internal Server Error" }
         };
-        Response::Response() : m_body("invalid"), m_code(400)
+        Response::Response() : m_code(400)
         {
+            set_response_body("invalid");
             default_headers();
         }
         Response::Response(std::string response_text, uint8_t http_code) :
             m_code(http_code)
         {
-            set_body(response_text);
+            set_response_body(response_text);
             default_headers();
         }
         void Response::default_headers()
@@ -31,10 +32,10 @@ namespace Naive
         Response::~Response()
         {
         }
-        void Response::set_body(std::string b)
+        void Response::set_response_body(std::string b)
         {
-            m_body = b;
-            set_header("Content-Length", std::to_string(m_body.size()));
+            set_body(b);
+            set_header("Content-Length", std::to_string(get_body().size()));
         }
         std::string Response::get_text()
         {

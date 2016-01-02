@@ -60,5 +60,9 @@ namespace Naive
         {
             return m_body;
         }
+        void Message::set_body(std::string b)
+        {
+            m_body = b;
+        }
     }
 }
