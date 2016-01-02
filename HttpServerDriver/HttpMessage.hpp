@@ -10,7 +10,7 @@ namespace Naive
         {
         public:
             Message();
-            ~Message();
+            virtual ~Message();
             std::string to_string();
             bool keep_alive();
             std::string get_header(std::string);
@@ -18,7 +18,7 @@ namespace Naive
             std::string get_url();
             std::string get_http_version();
             std::string get_body();
-            void set_body(std::string);
+            virtual void set_body(std::string);
             std::map<std::string, std::string> get_headers();
 
         protected:

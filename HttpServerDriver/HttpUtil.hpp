@@ -26,11 +26,6 @@ namespace Naive
            }
            return oss.str();
        }
-       inline void debug(std::string msg)
-       {
-#if DEBUG
-           std::cout << msg << std::endl;
-#endif
-       }
+       void debug(std::string msg);
     }
 }
