@@ -31,7 +31,7 @@ namespace Naive
                 return false;
             }
             m_method = hline[0];
-            m_url = hline[1];
+            m_url.parse(hline[1]);
             m_http_version = hline[2];
 
             while (v.size() > 0)
@@ -58,7 +58,7 @@ namespace Naive
         }
         std::string Request::first_line()
         {
-            return m_method + " " + m_url + " " + m_http_version;
+            return m_method + " " + m_url.to_string() +" " + m_http_version;
         }
 
 

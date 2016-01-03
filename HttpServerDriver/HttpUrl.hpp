@@ -9,12 +9,14 @@ namespace Naive
         {
         public:
             Url(std::string);
+            Url();
             ~Url();
 
             std::string get_protocol();
             std::string get_host();
             std::string get_path();
             std::map<std::string, std::string> get_query();
+            std::string to_string();
 
             void parse(std::string);
             static std::string percent_encode(const std::string&);

@@ -13,6 +13,10 @@ namespace Naive
         {
             parse(u);
         }
+        Url::Url()
+        {
+
+        }
 
         Url::~Url()
         {
@@ -38,7 +42,7 @@ namespace Naive
             {
                 return;
             }
-            remainder = v1[1];
+            remainder = "/" + v1[1];
             split_first(v1, remainder, "?");
             m_path = v1.front();
             if (v1.size() == 1)
@@ -53,6 +57,10 @@ namespace Naive
                 if (param.size() == 2)
                 {
                     m_query[percent_decode(param[0])] = percent_decode(param[1]);
+                }
+                else
+                {
+                    m_query[percent_decode(param[0])] = "";
                 }
 
             });
@@ -102,6 +110,22 @@ namespace Naive
         std::map<std::string, std::string> Url::get_query()
         {
             return m_query;
+        }
+        std::string Url::to_string()
+        {
+            std::string ret( m_protocol + "://" + m_host);
+            if (m_path != "")
+            {
+                ret += "/" + m_path;
+            }
+            if (m_query.size() > 0)
+            {
+                ret += "&";
+                std::for_each(m_query.begin(), m_query.end(), [&ret](const std::pair<std::string, std::string> &qx) {
+                    ret += std::string( qx.first + "=" + qx.second);
+                });
+            }
+            return ret;
         }
     }
 }

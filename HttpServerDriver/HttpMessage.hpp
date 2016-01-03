@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <map>
+#include "HttpUrl.hpp"
 
 namespace Naive
 {
@@ -15,7 +16,7 @@ namespace Naive
             bool keep_alive();
             std::string get_header(std::string);
             std::string get_method();
-            std::string get_url();
+            Url get_url();
             std::string get_http_version();
             std::string get_body();
             virtual void set_body(std::string);
@@ -25,7 +26,7 @@ namespace Naive
             virtual std::string first_line() = 0;
             std::map<std::string, std::string> m_headers;
             std::string m_method;  // one of GET, POST etc.
-            std::string m_url;
+            Url m_url;
             std::string m_http_version;
             std::string m_body;
         };

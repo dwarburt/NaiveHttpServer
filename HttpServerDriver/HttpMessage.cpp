@@ -48,7 +48,7 @@ namespace Naive
         {
             return m_method;
         }
-        std::string Message::get_url()
+        Url Message::get_url()
         {
             return m_url;
         }

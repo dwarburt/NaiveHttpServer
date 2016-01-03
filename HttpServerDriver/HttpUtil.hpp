@@ -44,7 +44,7 @@ namespace Naive
            v.pop_front();
            if (v.size() > 0)
            {
-               std::string part2 = join(v, ".");
+               std::string part2 = join(v, seperator);
 
                output.push_back(part2);
            }
