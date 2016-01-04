@@ -55,12 +55,15 @@ namespace Naive
         }
         void Response::set_file_response(std::string fpath)
         {
-            //TODO: If fpath ends in a slash, search that dir for a default file.
+            if (boost::filesystem::is_directory(fpath))
+            {
+                fpath += "/index.html";
+            }
             std::ifstream infile(fpath, std::ios::binary);
             if (!infile)
             {
                 m_code = 404;
-                set_response_body("404 file not found in " + boost::filesystem::current_path().string());
+                set_response_body("404 file not found");
                 return;
             }
             std::ostringstream oss;
