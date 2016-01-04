@@ -1,3 +1,10 @@
+#include <iostream>
+#include <sstream>
+#include <fstream>
+#include <algorithm>
+
+#include "boost/filesystem.hpp"  
+
 #include "HttpResponse.hpp"
 
 namespace Naive
@@ -12,6 +19,15 @@ namespace Naive
             { 403, "Forbidden" },
             { 404, "Not Found" },
             { 500, "Internal Server Error" }
+        };
+        std::map<std::string, std::string> Response::mime_types{
+            { "jpg", "image/jpeg" },
+            { "gif", "image/gif" },
+            { "css", "text/css" },
+            { "js", "application/x-javascript" },
+            { "html", "text/html" },
+            { "png", "image/png" },
+            { "ico", "image/x-icon" }
         };
         Response::Response() : m_code(400)
         {
@@ -37,13 +53,44 @@ namespace Naive
             set_body(b);
             set_header("Content-Length", std::to_string(get_body().size()));
         }
+        void Response::set_file_response(std::string fpath)
+        {
+            //TODO: If fpath ends in a slash, search that dir for a default file.
+            std::ifstream infile(fpath, std::ios::binary);
+            if (!infile)
+            {
+                m_code = 404;
+                set_response_body("404 file not found in " + boost::filesystem::current_path().string());
+                return;
+            }
+            std::ostringstream oss;
+            oss << infile.rdbuf();
+            set_response_body(oss.str());
+            m_code = 200;
+
+            //content-type
+            std::string ct("text/plain");
+            std::for_each(mime_types.begin(), mime_types.end(), [&ct, fpath](auto &mt) {
+                std::string extension = "." + mt.first;
+                std::string mime_type = mt.second;
+                if (fpath.size() >= extension.size() + 1)
+                {
+                    auto mismatch = std::mismatch(extension.begin(), extension.end(), fpath.end() - (extension.size()));
+                    if (mismatch.first == extension.end() && mismatch.second == fpath.end())
+                    {
+                        ct = mime_type;
+                    }
+                }
+            });
+            set_header("Content-Type", ct);
+        }
         std::string Response::get_text()
         {
             return m_body;
         }
         std::string Response::first_line()
         {
-            return "HTTP/1.1 200 OK";
+            return "HTTP/1.1 " + std::to_string(m_code) + " " + http_codes[m_code];
         }
         uint8_t Response::get_code()
         {

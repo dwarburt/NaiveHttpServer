@@ -11,8 +11,8 @@ namespace Naive
     namespace Http
     {
 
-        Socket::Socket(boost::asio::ip::tcp::socket socket, RequestHandler h, std::function<void(SocketPtr)> on_close) 
-            : m_socket(std::move(socket)), m_handler(h), m_on_close(on_close), buffer(8096)
+        Socket::Socket(boost::asio::ip::tcp::socket socket, RequestHandler h, std::function<void(SocketPtr)> on_close, std::map<std::string,std::string> fsmap) 
+            : m_socket(std::move(socket)), m_handler(h), m_on_close(on_close), buffer(8096), m_fsmap(fsmap)
         {
         }
 
@@ -32,6 +32,31 @@ namespace Naive
 
             m_on_close(p);
         }
+        std::shared_ptr<Response> Socket::get_file_response(Request req)
+        {
+            std::string requested_url_path(req.get_url().get_path());
+            auto ret = std::shared_ptr<Response>(nullptr);
+            for (auto m : m_fsmap)
+            {
+                
+                std::string url_path = m.first;
+                std::string fspath = m.second;
+                std::string request_path = req.get_url().get_path();
+                if (url_path.size() > request_path.size())
+                {
+                    continue;
+                }
+                auto t = std::mismatch(url_path.begin(), url_path.end(), requested_url_path.begin());
+                if (t.first == url_path.end())
+                {
+                    std::string newpath(fspath);
+                    newpath.append(t.second, requested_url_path.end());
+                    ret = std::shared_ptr<Response>(new Response());
+                    ret->set_file_response(newpath);
+                }
+            }
+            return ret;
+        }
         void Socket::got_data(error_code ec, std::size_t bytes)
         {
             if (!ec)
@@ -42,7 +67,15 @@ namespace Naive
 
                 if (req.parse(buffer, bytes))
                 {
-                    resp = m_handler(req);
+                    auto file_response = get_file_response(req);
+                    if (file_response)
+                    {
+                        resp = *file_response;
+                    }
+                    else
+                    {
+                       resp = m_handler(req);
+                    }
                 }
 
                 buffer.clear();
@@ -72,10 +105,9 @@ namespace Naive
             {
                 if (!ec)
                 {
-                    // Initiate graceful connection closure.
-                    error_code ignored_ec;
+                    error_code ignore;
                     m_socket.shutdown(tcp::socket::shutdown_both,
-                        ignored_ec);
+                        ignore);
                 }
                 delete data_buffer;
             });

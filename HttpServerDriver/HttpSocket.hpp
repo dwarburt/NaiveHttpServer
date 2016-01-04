@@ -15,7 +15,12 @@ namespace Naive
         class Socket : public std::enable_shared_from_this<Socket>
         {
         public:
-            Socket(boost::asio::ip::tcp::socket, RequestHandler, std::function<void(SocketPtr)>);
+            Socket(
+                boost::asio::ip::tcp::socket socket_on_which_to_communicate,
+                RequestHandler callback_to_userspace_for_handling_requests,
+                std::function<void(SocketPtr)> callback_to_notify_when_socket_can_close,
+                std::map<std::string,std::string> map_of_routes_to_filesystem_directories
+                );
             ~Socket();
             void handle();
             void close();
@@ -25,9 +30,11 @@ namespace Naive
             RequestHandler m_handler;
             std::function<void(SocketPtr)> m_on_close;
             std::vector<uint8_t> buffer;
+            std::map<std::string, std::string> m_fsmap;
 
             void got_data(boost::system::error_code ec, std::size_t bytes);
             void respond(uint8_t code, std::string response_text);
+            std::shared_ptr<Response> get_file_response(Request);
         };
 
         

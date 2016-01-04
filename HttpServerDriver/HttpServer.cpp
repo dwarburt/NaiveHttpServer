@@ -33,6 +33,18 @@ namespace Naive
             m_handler = handler;
             m_io.run();
         }
+        void Server::route_to_files(std::string route, std::string fs_path)
+        {
+            if (route[route.size() - 1] != '/')
+            {
+                route.append(1, '/');
+            }
+            if (fs_path[fs_path.size() - 1] != '/')
+            {
+                fs_path.append(1, '/');
+            }
+            m_routes_to_files[route] = fs_path;
+        }
         void Server::wait_for_connection()
         {
             m_psocket = std::shared_ptr<tcp::socket>(new tcp::socket(m_io));
@@ -49,7 +61,12 @@ namespace Naive
             if (!error_code)
             {
                 debug("Handling the connection");
-                SocketPtr ns = std::make_shared<Socket>(std::move(*m_psocket), m_handler, std::bind(&Server::close_socket, this, _1));
+                SocketPtr ns = std::make_shared<Socket>(
+                    std::move(*m_psocket),
+                    m_handler,
+                    std::bind(&Server::close_socket, this, _1),
+                    m_routes_to_files
+                    );
                 m_socket_list.insert(ns);
                 ns->handle();
             }

@@ -21,7 +21,7 @@ Response handle(Request req)
     {
         query_details += "<tr><td>" + p.first + "</td><td>" + p.second + "</td></tr>";
     }
-    query_details += "</table";
+    query_details += "</table>";
     std::string epilog = "</body></html>";
 
     auto j = Response(
@@ -42,8 +42,8 @@ void test(std::string x)
 }
 int main(int argc, char **argv)
 {
-    test("%99");
     Server my_server;
+    my_server.route_to_files("/static", ".");
     my_server.start(handle);
     return 0;
 }

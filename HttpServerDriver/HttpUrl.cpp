@@ -44,7 +44,7 @@ namespace Naive
             }
             remainder = "/" + v1[1];
             split_first(v1, remainder, "?");
-            m_path = v1.front();
+            m_path = percent_decode(v1.front());
             if (v1.size() == 1)
             {
                 return;
@@ -76,13 +76,14 @@ namespace Naive
             {
                 if (input[x] == '%')
                 {
-                    x += 2;
+                    x++;
                     if (x < input.size())
                     {
                         std::string hex(input, x, 2);
                         char decoded_char = std::stoi(hex, 0, 16);
                         oss << std::string(1, decoded_char);
                     }
+                    x++;
                 }
                 else if (input[x] == '+')
                 {
