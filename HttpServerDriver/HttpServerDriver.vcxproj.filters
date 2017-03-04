@@ -21,25 +21,25 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HttpRequest.hpp">
+    <ClInclude Include="request.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HttpResponse.hpp">
+    <ClInclude Include="response.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HttpServer.hpp">
+    <ClInclude Include="server.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HttpSocket.hpp">
+    <ClInclude Include="socket.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HttpUtil.hpp">
+    <ClInclude Include="util.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HttpMessage.hpp">
+    <ClInclude Include="message.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HttpUrl.hpp">
+    <ClInclude Include="url.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,25 +47,25 @@
     <ClCompile Include="HttpServerDriver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HttpServer.cpp">
+    <ClCompile Include="server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HttpRequest.cpp">
+    <ClCompile Include="request.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HttpResponse.cpp">
+    <ClCompile Include="response.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HttpSocket.cpp">
+    <ClCompile Include="socket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HttpUtil.cpp">
+    <ClCompile Include="util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HttpMessage.cpp">
+    <ClCompile Include="message.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HttpUrl.cpp">
+    <ClCompile Include="url.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

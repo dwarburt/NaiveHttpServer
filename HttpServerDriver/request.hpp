@@ -2,7 +2,7 @@
 #include <vector>
 #include <map>
 
-#include "HttpMessage.hpp"
+#include "message.hpp"
 
 namespace Naive
 {

@@ -1,6 +1,6 @@
 #include <iostream>
-#include "HttpSocket.hpp"
-#include "HttpUtil.hpp"
+#include "socket.hpp"
+#include "uil.hpp"
 using namespace boost::asio;
 using namespace boost::asio::ip;
 using namespace boost::system;
@@ -11,7 +11,7 @@ namespace Naive
     namespace Http
     {
 
-        Socket::Socket(boost::asio::ip::tcp::socket socket, RequestHandler h, std::function<void(SocketPtr)> on_close, std::map<std::string,std::string> fsmap) 
+        Socket::Socket(boost::asio::ip::tcp::socket socket, RequestHandler h, std::function<void(SocketPtr)> on_close, std::map<std::string,std::string> fsmap)
             : m_socket(std::move(socket)), m_handler(h), m_on_close(on_close), buffer(8096), m_fsmap(fsmap)
         {
         }
@@ -38,7 +38,7 @@ namespace Naive
             auto ret = std::shared_ptr<Response>(nullptr);
             for (auto m : m_fsmap)
             {
-                
+
                 std::string url_path = m.first;
                 std::string fspath = m.second;
                 std::string request_path = req.get_url().get_path();

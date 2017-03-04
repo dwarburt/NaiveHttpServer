@@ -1,4 +1,4 @@
-#include "HttpServer.hpp"
+#include "server.hpp"
 #include <iostream>
 
 using namespace boost::asio;
@@ -82,7 +82,7 @@ namespace Naive
         {
             debug("Closing the connection");
             m_socket_list.erase(sp);
-            
+
         }
     } //namespace Http
 } //namespace Naive

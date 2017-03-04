@@ -147,24 +147,24 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="HttpMessage.hpp" />
-    <ClInclude Include="HttpRequest.hpp" />
-    <ClInclude Include="HttpResponse.hpp" />
-    <ClInclude Include="HttpServer.hpp" />
-    <ClInclude Include="HttpSocket.hpp" />
-    <ClInclude Include="HttpUrl.hpp" />
-    <ClInclude Include="HttpUtil.hpp" />
+    <ClInclude Include="message.hpp" />
+    <ClInclude Include="request.hpp" />
+    <ClInclude Include="response.hpp" />
+    <ClInclude Include="server.hpp" />
+    <ClInclude Include="socket.hpp" />
+    <ClInclude Include="url.hpp" />
+    <ClInclude Include="util.hpp" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HttpMessage.cpp" />
-    <ClCompile Include="HttpRequest.cpp" />
-    <ClCompile Include="HttpResponse.cpp" />
-    <ClCompile Include="HttpServer.cpp" />
+    <ClCompile Include="message.cpp" />
+    <ClCompile Include="request.cpp" />
+    <ClCompile Include="response.cpp" />
+    <ClCompile Include="server.cpp" />
     <ClCompile Include="HttpServerDriver.cpp" />
-    <ClCompile Include="HttpSocket.cpp" />
-    <ClCompile Include="HttpUrl.cpp" />
-    <ClCompile Include="HttpUtil.cpp" />
+    <ClCompile Include="socket.cpp" />
+    <ClCompile Include="url.cpp" />
+    <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

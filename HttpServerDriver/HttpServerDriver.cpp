@@ -1,8 +1,8 @@
 
-#include "HttpServer.hpp"
+#include "server.hpp"
 #include <boost/asio.hpp>
-#include "HttpUtil.hpp"
-#include "HttpUrl.hpp"
+#include "util.hpp"
+#include "url.hpp"
 
 using namespace Naive::Http;
 
@@ -47,4 +47,3 @@ int main(int argc, char **argv)
     my_server.start(handle);
     return 0;
 }
-

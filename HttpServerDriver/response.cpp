@@ -3,9 +3,9 @@
 #include <fstream>
 #include <algorithm>
 
-#include "boost/filesystem.hpp"  
+#include "boost/filesystem.hpp"
 
-#include "HttpResponse.hpp"
+#include "response.hpp"
 
 namespace Naive
 {

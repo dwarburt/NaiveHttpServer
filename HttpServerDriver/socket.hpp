@@ -1,7 +1,7 @@
 #pragma once
 #include <boost/asio.hpp>
-#include "HttpRequest.hpp"
-#include "HttpResponse.hpp"
+#include "request.hpp"
+#include "response.hpp"
 
 namespace Naive
 {
@@ -37,7 +37,6 @@ namespace Naive
             std::shared_ptr<Response> get_file_response(Request);
         };
 
-        
+
     }
 }
-

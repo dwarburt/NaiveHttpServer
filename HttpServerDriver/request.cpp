@@ -3,8 +3,8 @@
 #include <sstream>
 #include <deque>
 
-#include "HttpRequest.hpp"
-#include "HttpUtil.hpp"
+#include "request.hpp"
+#include "util.hpp"
 
 namespace Naive
 {
@@ -22,7 +22,7 @@ namespace Naive
             std::deque<std::string> v;
             std::deque<std::string> hline;
             split(v, requeststr, "\r\n");
-            
+
             std::string http_line = v.front();
             v.pop_front();
             split(hline, http_line, " ");

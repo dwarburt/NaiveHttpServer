@@ -1,6 +1,6 @@
 #pragma once
 #include <map>
-#include "HttpMessage.hpp"
+#include "message.hpp"
 
 namespace Naive
 {
@@ -28,7 +28,7 @@ namespace Naive
         protected:
             virtual std::string first_line();
 
-            
+
         };
     } //namespace Http
 } //namespace Server

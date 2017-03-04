@@ -1,7 +1,7 @@
 #include <vector>
 #include <deque>
-#include "HttpUrl.hpp"
-#include "HttpUtil.hpp"
+#include "url.hpp"
+#include "util.hpp"
 
 
 namespace Naive

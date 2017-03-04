@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <map>
-#include "HttpUrl.hpp"
+#include "url.hpp"
 
 namespace Naive
 {

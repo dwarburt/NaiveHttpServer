@@ -1,10 +1,10 @@
 #pragma once
 #include <set>
 #include <boost/asio.hpp>
-#include "HttpRequest.hpp"
-#include "HttpResponse.hpp"
-#include "HttpSocket.hpp"
-#include "HttpUtil.hpp"
+#include "request.hpp"
+#include "response.hpp"
+#include "socket.hpp"
+#include "util.hpp"
 
 namespace Naive
 {
@@ -23,7 +23,7 @@ namespace Naive
             void wait_for_connection();
             void handle_connection(boost::system::error_code error_code);
             void close_socket(SocketPtr);
-            
+
             std::map<std::string, std::string> m_routes_to_files;
             boost::asio::io_service m_io;
             boost::asio::ip::tcp::acceptor m_acceptor;
@@ -34,5 +34,3 @@ namespace Naive
         };
     } // namespace Http
 } // namespace Server
-
-
