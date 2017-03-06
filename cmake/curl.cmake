@@ -1,0 +1,7 @@
+find_package(CURL)
+if (${CURL_FOUND})
+    set(libs ${libs} ${CURL_LIBRARIES})
+    set(headers ${headers} ${CURL_INCLUDE_DIRECTORIES})
+else(${CURL_FOUND})
+    MESSAGE(FATAL_ERROR "Could not find CURL")
+endif(${CURL_FOUND})

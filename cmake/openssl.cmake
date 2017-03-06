@@ -1,0 +1,7 @@
+find_package(OpenSSL)
+if (${OPENSSL_FOUND})
+    set(libs ${libs} ${OPENSSL_CRYPTO_LIBRARY})
+    set(headers ${headers} ${OPENSSL_INCLUDE_DIR})
+else(${OPENSSL_FOUND})
+    MESSAGE(FATAL_ERROR "Could not find OpenSSL")
+endif(${OPENSSL_FOUND})
