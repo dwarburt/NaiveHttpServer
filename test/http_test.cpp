@@ -1,8 +1,8 @@
 
 #include <gtest/gtest.h>
 #include <asio.hpp>
-#include "http/util.hpp"
-#include "http/server.hpp"
+#include "util.hpp"
+#include "server.hpp"
 #include "gmock/gmock.h"
 #include "gateway.h"
 #include "storage.h"
