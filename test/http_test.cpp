@@ -3,13 +3,16 @@
 #include <asio.hpp>
 #include "util.hpp"
 #include "server.hpp"
+#include "client.hpp"
 #include "gmock/gmock.h"
-#include "gateway.h"
-#include "storage.h"
-#include "network_map.h"
-#include "http_client.h"
 
 using namespace Naive::Http;
+using namespace Naive;
+
+GTEST_API_ int main(int argc, char ** argv) {
+    ::testing::InitGoogleMock(&argc, argv);
+    return RUN_ALL_TESTS();
+}
 
 TEST(http_server, http_server_can_answer_requests) {
     Server myServer;
