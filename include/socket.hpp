@@ -1,5 +1,5 @@
 #pragma once
-#include <boost/asio.hpp>
+#include <asio.hpp>
 #include "request.hpp"
 #include "response.hpp"
 
@@ -8,7 +8,6 @@ namespace Naive
     namespace Http
     {
         class Socket;
-        typedef std::function<Response(Request)> RequestHandler;
         typedef std::shared_ptr<Socket> SocketPtr;
         // The purpose of this class is to manage the lifetime of a tcp::socket, read and write from
         // that socket and close it when done.
@@ -16,7 +15,7 @@ namespace Naive
         {
         public:
             Socket(
-                boost::asio::ip::tcp::socket socket_on_which_to_communicate,
+                asio::ip::tcp::socket socket_on_which_to_communicate,
                 RequestHandler callback_to_userspace_for_handling_requests,
                 std::function<void(SocketPtr)> callback_to_notify_when_socket_can_close,
                 std::map<std::string,std::string> map_of_routes_to_filesystem_directories
@@ -26,13 +25,13 @@ namespace Naive
             void close();
 
         private:
-            boost::asio::ip::tcp::socket m_socket;
+            asio::ip::tcp::socket m_socket;
             RequestHandler m_handler;
             std::function<void(SocketPtr)> m_on_close;
             std::vector<uint8_t> buffer;
             std::map<std::string, std::string> m_fsmap;
 
-            void got_data(boost::system::error_code ec, std::size_t bytes);
+            void got_data(asio::error_code ec, std::size_t bytes);
             void respond(uint8_t code, std::string response_text);
             std::shared_ptr<Response> get_file_response(Request);
         };

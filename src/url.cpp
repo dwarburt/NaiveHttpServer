@@ -1,5 +1,7 @@
 #include <vector>
 #include <deque>
+#include <algorithm>
+#include <stdlib.h>
 #include "url.hpp"
 #include "util.hpp"
 
@@ -72,7 +74,7 @@ namespace Naive
         std::string Url::percent_decode(const std::string &input)
         {
             std::ostringstream oss;
-            for (int x = 0; x < input.size(); x++)
+            for (size_t x = 0; x < input.size(); x++)
             {
                 if (input[x] == '%')
                 {
@@ -80,7 +82,8 @@ namespace Naive
                     if (x < input.size())
                     {
                         std::string hex(input, x, 2);
-                        char decoded_char = std::stoi(hex, 0, 16);
+
+                        char decoded_char = (char)strtol(hex.c_str(), nullptr, 16);  //std::stoi(hex, 0, 16);  // <- doesn't work on mips
                         oss << std::string(1, decoded_char);
                     }
                     x++;

@@ -1,9 +1,9 @@
 #include <iostream>
 #include "socket.hpp"
-#include "uil.hpp"
-using namespace boost::asio;
-using namespace boost::asio::ip;
-using namespace boost::system;
+#include "util.hpp"
+
+using namespace asio;
+using namespace asio::ip;
 using namespace std::placeholders;
 
 namespace Naive
@@ -11,7 +11,7 @@ namespace Naive
     namespace Http
     {
 
-        Socket::Socket(boost::asio::ip::tcp::socket socket, RequestHandler h, std::function<void(SocketPtr)> on_close, std::map<std::string,std::string> fsmap)
+        Socket::Socket(asio::ip::tcp::socket socket, RequestHandler h, std::function<void(SocketPtr)> on_close, std::map<std::string,std::string> fsmap)
             : m_socket(std::move(socket)), m_handler(h), m_on_close(on_close), buffer(8096), m_fsmap(fsmap)
         {
         }
@@ -23,7 +23,7 @@ namespace Naive
 
         void Socket::handle()
         {
-            m_socket.async_read_some(boost::asio::buffer(buffer), std::bind(&Socket::got_data, this, _1, _2));
+            m_socket.async_read_some(asio::buffer(buffer), std::bind(&Socket::got_data, this, _1, _2));
         }
 
         void Socket::close()
@@ -53,6 +53,7 @@ namespace Naive
                     newpath.append(t.second, requested_url_path.end());
                     ret = std::shared_ptr<Response>(new Response());
                     ret->set_file_response(newpath);
+                    break;
                 }
             }
             return ret;
@@ -61,27 +62,26 @@ namespace Naive
         {
             if (!ec)
             {
-                Request req;
-                Response resp;
-                debug("Got data on this socket " + std::to_string(m_socket.native_handle()));
+                auto req = std::shared_ptr<Request>(new Request());
+                auto resp = std::shared_ptr<Response>(new Response());
 
-                if (req.parse(buffer, bytes))
+                if (req->parse(buffer, bytes))
                 {
-                    auto file_response = get_file_response(req);
+                    auto file_response = get_file_response(*req);
                     if (file_response)
                     {
-                        resp = *file_response;
+                        resp = file_response;
                     }
                     else
                     {
-                       resp = m_handler(req);
+                       auto endResult = m_handler(req, resp);
                     }
                 }
 
                 buffer.clear();
-                respond(resp.get_code(), resp.to_string());
+                respond(resp->get_code(), resp->to_string());
 
-                if (req.keep_alive())
+                if (req->keep_alive())
                 {
                     handle();
                 }
@@ -100,7 +100,7 @@ namespace Naive
         {
             std::string *data_buffer = new std::string(response_text);
 
-            async_write(m_socket, boost::asio::buffer(*data_buffer),
+            async_write(m_socket, asio::buffer(*data_buffer),
                 [this, data_buffer](error_code ec, std::size_t)
             {
                 if (!ec)
