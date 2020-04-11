@@ -2,6 +2,7 @@
 #include <string>
 #include <map>
 #include <memory>
+#include <functional>
 #include "url.hpp"
 #include "auth.hpp"
 

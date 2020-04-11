@@ -1,24 +1,20 @@
-ExternalProject_Add(
-    googletest
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    CMAKE_ARGS ${TOOLCHAIN_CMAKE_ARG}
-    LOG_BUILD 1
-    INSTALL_COMMAND ""
-)
+configure_file(../cmake/CMakeLists.txt.in googletest-download/CMakeLists.txt)
+execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+  RESULT_VARIABLE result
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest-download )
+if(result)
+  message(FATAL_ERROR "CMake step for googletest failed: ${result}")
+endif()
+execute_process(COMMAND ${CMAKE_COMMAND} --build .
+  RESULT_VARIABLE result
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest-download )
+if(result)
+  message(FATAL_ERROR "Build step for googletest failed: ${result}")
+endif()
 
-ExternalProject_Get_Property(googletest source_dir)
-ExternalProject_Get_Property(googletest binary_dir)
+add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
+                 ${CMAKE_CURRENT_BINARY_DIR}/googletest-build
+                 EXCLUDE_FROM_ALL)
 
-add_library(gtest UNKNOWN IMPORTED)
-add_library(gmock UNKNOWN IMPORTED)
-
-set_property(TARGET gtest PROPERTY IMPORTED_LOCATION ${binary_dir}/googlemock/gtest/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_STATIC_LIBRARY_SUFFIX})
-set_property(TARGET gmock PROPERTY IMPORTED_LOCATION ${binary_dir}/googlemock/${CMAKE_FIND_LIBRARY_PREFIXES}gmock${CMAKE_STATIC_LIBRARY_SUFFIX})
-
-include_directories(
-    ${source_dir}/googletest/include
-    ${source_dir}/googlemock/include
-)
-
+                 
 set(libs ${libs} gtest gmock)
-set(deps ${deps} googletest)
